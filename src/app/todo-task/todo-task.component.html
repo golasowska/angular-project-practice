@@ -1,0 +1,11 @@
+<div *ngIf="taskList.length>0; else addTask ">
+  <ul> To do:
+    <li *ngFor="let task of taskList; let i = index">{{task}}
+      <button (click)="onDone(task)">Done</button>
+      <button (click)="onRemove(task)">Remove</button>
+    </li>
+  </ul>
+  <h4> {{taskList.length}} tasks left!</h4>
+</div>
+
+<ng-template #addTask>Add a task !!</ng-template>

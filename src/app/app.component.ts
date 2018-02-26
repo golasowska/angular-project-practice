@@ -11,9 +11,8 @@ export class AppComponent {
   taskList: Array<string> = [];
   done: Array<string> = [];
 
-  add() {
-    this.taskList.push(this.newTask);
-    this.newTask = '';
+  onAddTask(task: string) {
+    this.taskList.push(task);
   }
 
   onDone(task: string) {
@@ -27,3 +26,4 @@ export class AppComponent {
   }
 
 }
+
