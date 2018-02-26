@@ -1,0 +1,14 @@
+li {
+  background: cornflowerblue;
+  margin: 5px;
+}
+
+.odd-li {
+  background: azure;
+  margin: 5px;
+}
+
+.last-li {
+  background: cadetblue;
+  margin: 5px;
+}
