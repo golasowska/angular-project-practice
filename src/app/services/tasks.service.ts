@@ -1,43 +1,45 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import {Task} from '../models/task';
+import {HttpService} from './http.service';
 
 @Injectable() export class TasksService {
 
-  private taskList: Array<string> = [];
-  private done: Array<string> = [];
+  private tasksListObs = new BehaviorSubject<Array<Task>>([]);
 
-  private tasksListObs = new BehaviorSubject<Array<string>>(this.taskList);
-  private tasksDoneObs = new BehaviorSubject<Array<string>>(this.done);
 
-  constructor() {
-    this.taskList = ['Wash car', 'Walk dog', 'Shopping', 'Call Friend'];
-    this.tasksListObs.next(this.taskList);
+  constructor(private httpService: HttpService) {
+    this.httpService.getTasks().subscribe( list => {
+      this.tasksListObs.next(list);
+    });
   }
 
-  onAddTask(task: string) {
-    this.taskList.push(task);
-    this.tasksListObs.next(this.taskList);
+  onAddTask(task: Task) {
+    const list = this.tasksListObs.getValue();
+    list.push(task);
+    this.tasksListObs.next(list);
   }
 
-  onDone(task: string) {
-    this.done.push(task);
-    this.onRemove(task);
-    this.tasksDoneObs.next(this.done);
+  onDone(task: Task) {
+    task.end = new Date().toLocaleDateString();
+    task.isDone = true;
+    const list = this.tasksListObs.getValue();
+    this.tasksListObs.next(list);
   }
 
-  onRemove(task: string) {
-    // this.taskList.splice(index, 1);
-    this.taskList = this.taskList.filter(e => e !== task);
-    this.tasksListObs.next(this.taskList);
+  onRemove(task: Task) {
+    const list = this.tasksListObs.getValue().filter(e => e !== task);
+    this.tasksListObs.next(list);
   }
 
-  getTaskListObs(): Observable<Array<string>> {
+  getTaskListObs(): Observable<Array<Task>> {
     return this.tasksListObs.asObservable();
   }
 
-  getTaskDoneObs(): Observable<Array<string>> {
-    return this.tasksDoneObs.asObservable();
+  saveTasksInDb() {
+    this.httpService.saveTasks(this.tasksListObs.getValue());
   }
+
 
 }

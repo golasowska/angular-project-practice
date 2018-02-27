@@ -1,5 +1,7 @@
 <div>Done:
   <ul>
-    <li *ngFor="let item of done">{{item}}</li>
+    <li appDate [date]="item.end" appChecked *ngFor="let item of done">
+      {{item.name | transformTask: ' - super!'}}
+    </li>
   </ul>
 </div>
