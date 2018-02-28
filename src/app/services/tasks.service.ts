@@ -15,9 +15,8 @@ import {HttpService} from './http.service';
     });
   }
 
-  onAddTask(task: Task) {
-    const list = this.tasksListObs.getValue();
-    list.push(task);
+  onAddTask(task: Array<Task>) {
+    const list = this.tasksListObs.getValue().concat(task);
     this.tasksListObs.next(list);
   }
 

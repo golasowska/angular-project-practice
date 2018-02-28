@@ -6,7 +6,7 @@ import {Task} from '../models/task';
   selector: 'app-todo-task',
   templateUrl: './todo-task.component.html',
   styleUrls: ['./todo-task.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class TodoTaskComponent implements OnInit {
 
